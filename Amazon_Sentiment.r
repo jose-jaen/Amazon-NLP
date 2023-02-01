@@ -6,7 +6,7 @@ library(tidyverse) ; library(reshape2) ; library(ggthemes) ; library(ggridges);
 library(fBasics) ; library(ggExtra) ; library(e1071) ; library(BSDA) ; library(nortest) 
 
 # Reading data
-reviews <- read.csv('amazon_reviews.csv', header = T, sep = ',', dec = '.')
+reviews <- read.csv('amazon_reviews.csv', header=T, sep=',', dec='.')
 attach(reviews)
 names(reviews)
 
@@ -34,13 +34,13 @@ new_labels <- c('SanDisk 64GB Memory', 'HDMI Amazon Cable', 'Chrome -cast HDMI',
 top_reviews_df <- data.frame(labels, new_labels, count)
 
 # Barplot of top 10 reviewed products
-top_reviews <- ggplot(top_reviews_df, aes(x = reorder(new_labels, -count), y = count)) + 
-                    geom_bar(stat = 'identity', fill = '#1663BE') +
-                    geom_text(aes(label = count), vjust = -1, size = 4.2) +
+top_reviews <- ggplot(top_reviews_df, aes(x=reorder(new_labels, -count), y=count)) + 
+                    geom_bar(stat='identity', fill='#1663BE') +
+                    geom_text(aes(label=count), vjust=-1, size=4.2) +
                     theme_economist() +
-                    labs(title = 'TOP 10 REVIEWED PRODUCTS', x = '', y = '# REVIEWS') +
-                    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5, vjust = -2)) +
-                    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 1))
+                    labs(title='TOP 10 REVIEWED PRODUCTS', x='', y='# REVIEWS') +
+                    theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5, vjust=-2)) +
+                    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width=1))
 
 top_reviews
 
@@ -56,14 +56,14 @@ top_ratings_df <- data.frame(top_ratings)
 
 
 # Plotting the average rating of the top 10 reviewed products
-top_ratings <- ggplot(top_ratings_df, aes(x = reorder(new_labels, -occurrences), y = avg_rating)) + 
-                    geom_bar(stat = 'identity', fill = '#1663BE') +
-                    geom_text(aes(label = round(avg_rating, 2)), vjust = -1, size = 4.2) +
+top_ratings <- ggplot(top_ratings_df, aes(x=reorder(new_labels, -occurrences), y=avg_rating)) + 
+                    geom_bar(stat='identity', fill='#1663BE') +
+                    geom_text(aes(label = round(avg_rating, 2)), vjust=-1, size=4.2) +
                     theme_economist() + ylim(c(0, 6)) +
-                    geom_hline(yintercept = 4, color = 'red', size = 1) +
-                    labs(title = 'TOP 10 PRODUCTS AVERAGE RATING', x = '', y = 'RATING') +
-                    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5, vjust = -2)) +
-                    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 1))
+                    geom_hline(yintercept=4, color='red', size=1) +
+                    labs(title='TOP 10 PRODUCTS AVERAGE RATING', x='', y='RATING') +
+                    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust=0.5, vjust=-2)) +
+                    scale_x_discrete(labels = function(x) stringr::str_wrap(x, width=1))
 
 top_ratings
 
@@ -106,12 +106,12 @@ segmented_reviews <- reviews %>%
                   ) 
 
 # Distribution of products by average rating 
-general_distribution <- ggplot(data = segmented_reviews, aes(x = avg_rating)) +
-  geom_histogram(aes(y = ..density..), position = 'identity', alpha = 0.5, color = '#BA55D3', fill = '#BA55D3') + geom_density(alpha = 0.6, color = 'red') +
-  scale_color_manual(values = c('#999999', '#E69F00', '#56B4E9')) +
-  scale_fill_manual(values = c('#999999', '#E69F00', '#56B4E9')) +
+general_distribution <- ggplot(data=segmented_reviews, aes(x=avg_rating)) +
+  geom_histogram(aes(y = ..density..), position='identity', alpha=0.5, color='#BA55D3', fill='#BA55D3') + geom_density(alpha=0.6, color='red') +
+  scale_color_manual(values=c('#999999', '#E69F00', '#56B4E9')) +
+  scale_fill_manual(values=c('#999999', '#E69F00', '#56B4E9')) +
   labs(title = 'RATING DISTRIBUTION', x = 'AVERAGE RATING', y = 'DENSITY') + theme_economist() +
-  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5, vjust = -2)) 
+  theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust=0.5, vjust=-2)) 
 
 general_distribution
 
@@ -127,13 +127,13 @@ lillie.test(segmented_reviews$occurrences)
 
 # Identify correlation between ratings and number of comments
 # Scatterplot
-scatter_plot <- ggplot(data = segmented_reviews, aes(x = avg_rating, y = occurrences, fill = sentiment, color = sentiment)) + 
+scatter_plot <- ggplot(data=segmented_reviews, aes(x=avg_rating, y=occurrences, fill=sentiment, color=sentiment)) + 
     geom_point() + theme_economist() +
-    scale_fill_manual(values = c('#E3242B', '#E69F00', '#56B4E9')) +
+    scale_fill_manual(values=c('#E3242B', '#E69F00', '#56B4E9')) +
     scale_color_manual(values = c('#E3242B', '#E69F00', '#56B4E9')) +
-    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5, vjust = -2)) +
-    labs(title = 'OCCURRENCES BY SENTIMENT', x = 'AVERAGE RATING', y = 'OCCURENCES') +
-    coord_cartesian(ylim = c(0, 5000))
+    theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5, vjust=-2)) +
+    labs(title='OCCURRENCES BY SENTIMENT', x='AVERAGE RATING', y='OCCURENCES') +
+    coord_cartesian(ylim=c(0, 5000))
 
 scatter_plot
 cor(segmented_reviews$avg_rating, segmented_reviews$occurrences)
@@ -149,14 +149,14 @@ correlationTest(segmented_reviews$avg_rating, segmented_reviews$occurrences, 'ke
 
 # Variables' distributions are not independent
 # Due to a strong presence of outliers, let us visualize a boxplot
-boxplot <- ggplot(data = segmented_reviews, aes(x = avg_rating, y = occurrences, fill= sentiment)) + 
-    geom_boxplot(alpha = 0.8) +
+boxplot <- ggplot(data=segmented_reviews, aes(x=avg_rating, y=occurrences, fill=sentiment)) + 
+    geom_boxplot(alpha=0.8) +
     scale_fill_manual(values = c('#E3242B', '#E69F00', '#56B4E9')) +
     scale_color_manual(values = c('#E3242B', '#E69F00', '#56B4E9')) +
     theme(legend.position = 'none') + theme_economist() +
     labs(title = 'Nº REVIEWS DISTRIBUTION', x = 'AVERAGE RATING', y = 'OCCURRENCES') +
-    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5, vjust = -2)) +
-    coord_cartesian(ylim = c(0, 50)) + xlim(c(0, 6.5))
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust=0.5, vjust=-2)) +
+    coord_cartesian(ylim=c(0, 50)) + xlim(c(0, 6.5))
 
 boxplot
 
